@@ -28,7 +28,15 @@ export const useSearchStore = create<Store>((set, get) => {
       location: searchParams.getAll('location') || [],
     },
 
-    hasFilters: () => Object.values(get().filters).some(Boolean),
+    hasFilters: () => {
+      return Object.values(get().filters).some((value) => {
+        if (Array.isArray(value)) {
+          return value.length > 0
+        }
+
+        return !!value
+      })
+    },
 
     actions: {
       updateFilter: (key, value) => {

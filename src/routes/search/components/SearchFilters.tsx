@@ -17,8 +17,6 @@ const SearchFilters: React.FC = () => {
       const searchParams = new URLSearchParams()
 
       Object.entries(filters).forEach(([key, value]) => {
-        console.log(value)
-
         // Handle empty values
         if (value === '') {
           searchParams.delete(key)
@@ -37,6 +35,17 @@ const SearchFilters: React.FC = () => {
       })
 
       setSearchParams(searchParams)
+    },
+    [filters]
+  )
+
+  useEffect(
+    function searchJobs() {
+      if (!hasFilters) return
+
+      console.log({ hasFilters })
+
+      console.log("Let's search for some jobs...")
     },
     [filters]
   )
