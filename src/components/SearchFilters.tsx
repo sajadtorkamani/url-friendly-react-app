@@ -6,12 +6,17 @@ const SearchFilters: React.FC = () => {
 
   console.log({ title })
 
-  function updateSearchParam(key: string, value: string) {
-    searchParams.set(key, value)
+  function handleFilterChange(name: string, value: string) {
+    // If user removes a filter, let's delete the param from the URL
+    if (value === '') {
+      searchParams.delete(name)
+    } else {
+      searchParams.set(name, value)
+    }
 
-    const newUrl = `${window.location.origin}${
-      window.location.pathname
-    }?${searchParams.toString()}`
+    const newSearchParams =
+      searchParams.toString().length > 1 ? `?${searchParams.toString()}` : ''
+    const newUrl = `${window.location.origin}${window.location.pathname}${newSearchParams}`
 
     window.history.pushState({}, '', newUrl)
   }
@@ -27,7 +32,7 @@ const SearchFilters: React.FC = () => {
           id="title"
           defaultValue={title}
           onChange={(event) => {
-            updateSearchParam('title', event.target.value)
+            handleFilterChange('title', event.target.value)
           }}
           name="title"
           placeholder="Search by job title"
@@ -44,8 +49,12 @@ const SearchFilters: React.FC = () => {
           name="type"
           id="type"
           className="border border-gray-500 px-2 py-1"
+          defaultValue={searchParams.get('type') || ''}
+          onChange={(event) => {
+            handleFilterChange('type', event.target.value)
+          }}
         >
-          <option value="any">Any</option>
+          <option value="">Any</option>
           <option value="permanent">Permanent</option>
           <option value="contract">Contract</option>
         </select>
