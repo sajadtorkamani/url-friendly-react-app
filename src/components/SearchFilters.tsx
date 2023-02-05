@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const SearchFilters: React.FC = () => {
-  const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
   const title = searchParams.get('title') || ''
-
-  useEffect(() => {
-    // console.log('Search params changed:', location.search)
-  }, [location.search])
-
   const filtersApplied = Array.from(searchParams.keys())
+
+  const filters = ['title', 'type']
 
   function handleFilterChange(name: string, value: string) {
     // If user removes a filter, let's delete the param from the URL
@@ -21,15 +17,11 @@ const SearchFilters: React.FC = () => {
     }
 
     setSearchParams(searchParams)
-    // const newSearchParams =
-    //   searchParams.toString().length > 1 ? `?${searchParams.toString()}` : ''
-    // const newUrl = `${window.location.origin}${window.location.pathname}${newSearchParams}`
+  }
 
-    // if (name === 'title') {
-    //   window.history.replaceState({}, '', newUrl)
-    // } else {
-    //   window.history.pushState({}, '', newUrl)
-    // }
+  function handleClearFilters() {
+    filters.forEach((filter) => searchParams.delete(filter))
+    setSearchParams(searchParams)
   }
 
   return (
@@ -73,7 +65,14 @@ const SearchFilters: React.FC = () => {
 
       <div className="my-3">Filters: {filtersApplied.join(', ')}</div>
 
-      <button className="mt-4 italic text-gray-800">Clear filters</button>
+      {filtersApplied.length > 0 && (
+        <button
+          className="mt-4 italic text-gray-800"
+          onClick={handleClearFilters}
+        >
+          Clear filters
+        </button>
+      )}
     </div>
   )
 }
