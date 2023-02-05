@@ -18,7 +18,11 @@ const SearchFilters: React.FC = () => {
       searchParams.toString().length > 1 ? `?${searchParams.toString()}` : ''
     const newUrl = `${window.location.origin}${window.location.pathname}${newSearchParams}`
 
-    window.history.pushState({}, '', newUrl)
+    if (name === 'title') {
+      window.history.replaceState({}, '', newUrl)
+    } else {
+      window.history.pushState({}, '', newUrl)
+    }
   }
 
   return (
