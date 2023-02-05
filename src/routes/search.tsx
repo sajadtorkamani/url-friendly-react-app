@@ -31,7 +31,7 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const SearchFilters: React.FC = () => {
+const Search: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const INITIAL_STATE: State = {
@@ -157,4 +157,4 @@ const SearchFilters: React.FC = () => {
   )
 }
 
-export default SearchFilters
+export default Search
