@@ -1,53 +1,22 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import {
+  useActions,
+  useFilters,
+  useHasFilters,
+} from '../../../stores/search-store'
 
-interface State {
-  title: string
-  type: string
-  location: string[]
-}
-
-type Action =
-  | {
-      type: 'updateFilter'
-      payload: {
-        name: string
-        value: string | string[]
-      }
-    }
-  | { type: 'clearFilters' }
-
-type Filter = keyof State
-
-function reducer(state: State, action: Action) {
-  switch (action.type) {
-    case 'updateFilter':
-      const { name, value } = action.payload
-      return { ...state, [name]: value }
-    case 'clearFilters':
-      return { title: '', type: '', location: [] }
-    default:
-      return state
-  }
-}
-
-const Search: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const INITIAL_STATE: State = {
-    title: searchParams.get('title') || '',
-    type: searchParams.get('type') || '',
-    location: searchParams.getAll('location') || [],
-  }
-
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
-  const hasFilters = Object.values(state).some(Boolean)
+const SearchFilters: React.FC = () => {
+  const [, setSearchParams] = useSearchParams()
+  const filters = useFilters()
+  const hasFilters = useHasFilters()
+  const { updateFilter, clearFilters } = useActions()
 
   useEffect(
     function updateSearchParams() {
       const searchParams = new URLSearchParams()
 
-      Object.entries(state).forEach(([key, value]) => {
+      Object.entries(filters).forEach(([key, value]) => {
         console.log(value)
 
         // Handle empty values
@@ -69,15 +38,8 @@ const Search: React.FC = () => {
 
       setSearchParams(searchParams)
     },
-    [state]
+    [filters]
   )
-
-  function handleFilterChange(name: Filter, value: string | string[]) {
-    dispatch({
-      type: 'updateFilter',
-      payload: { name, value },
-    })
-  }
 
   return (
     <div>
@@ -91,9 +53,9 @@ const Search: React.FC = () => {
           className="border border-gray-500 py-1 px-2"
           id="title"
           name="title"
-          value={state.title}
+          value={filters.title}
           onChange={(event) => {
-            handleFilterChange('title', event.target.value)
+            updateFilter('title', event.target.value)
           }}
           placeholder="Search by job title"
         />
@@ -107,10 +69,10 @@ const Search: React.FC = () => {
         <select
           name="type"
           className="border border-gray-500 px-2 py-1"
-          value={state.type}
+          value={filters.type}
           id="type"
           onChange={(event) => {
-            handleFilterChange('type', event.target.value)
+            updateFilter('type', event.target.value)
           }}
         >
           <option value="">Any</option>
@@ -128,14 +90,14 @@ const Search: React.FC = () => {
           name="location"
           multiple
           className="border border-gray-500 px-2 py-1"
-          value={state.location}
+          value={filters.location}
           id="location"
           onChange={(event) => {
             const selectedValues = [...event.target.options]
               .filter((option) => option.selected)
               .map((option) => option.value)
 
-            handleFilterChange('location', selectedValues)
+            updateFilter('location', selectedValues)
           }}
         >
           <option value="london">London</option>
@@ -148,7 +110,7 @@ const Search: React.FC = () => {
       {hasFilters && (
         <button
           className="mt-4 text-gray-800 text-blue-800"
-          onClick={() => dispatch({ type: 'clearFilters' })}
+          onClick={() => clearFilters()}
         >
           Clear filters
         </button>
@@ -157,4 +119,4 @@ const Search: React.FC = () => {
   )
 }
 
-export default Search
+export default SearchFilters

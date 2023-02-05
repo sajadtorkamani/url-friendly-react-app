@@ -1,5 +1,5 @@
 import React from 'react'
 
-const About: React.FC = () => <>About</>
+const AboutPage: React.FC = () => <>About</>
 
-export default About
+export default AboutPage

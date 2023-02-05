@@ -1,12 +1,10 @@
 import React from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ReactDOM from 'react-dom/client'
 import Root from './Root'
 import './index.css'
-
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './index.css'
-import Search from './routes/search'
-import About from './routes/about'
+import SearchPage from './routes/search'
+import AboutPage from './routes/about'
 
 const router = createBrowserRouter([
   {
@@ -16,11 +14,11 @@ const router = createBrowserRouter([
       {
         path: '',
         index: true,
-        element: <Search />,
+        element: <SearchPage />,
       },
       {
         path: '/about',
-        element: <About />,
+        element: <AboutPage />,
       },
     ],
   },
