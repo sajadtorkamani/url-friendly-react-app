@@ -1,36 +1,69 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-const filters = ['title', 'type']
+interface State {
+  title: string
+  type: string
+}
+
+type Action =
+  | {
+      type: 'updateFilter'
+      payload: {
+        name: string
+        value: string
+      }
+    }
+  | { type: 'clearFilters' }
+
+type Filter = keyof State
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'updateFilter':
+      const { name, value } = action.payload
+      return { ...state, [name]: value }
+    case 'clearFilters':
+      return { title: '', type: '' }
+    default:
+      return state
+  }
+}
 
 const SearchFilters: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const filtersApplied = Array.from(searchParams.keys())
-  const titleInput = useRef<HTMLInputElement | null>(null)
-  const typeInput = useRef<HTMLSelectElement | null>(null)
 
-  function handleFilterChange(name: string, value: string) {
-    // If user removes a filter, let's delete the param from the URL
-    if (value === '') {
-      searchParams.delete(name)
-    } else {
-      searchParams.set(name, value)
-    }
-
-    setSearchParams(searchParams)
+  const INITIAL_STATE: State = {
+    title: searchParams.get('title') || '',
+    type: searchParams.get('type') || '',
   }
 
-  function handleClearFilters() {
-    filters.forEach((filter) => searchParams.delete(filter))
-    setSearchParams(searchParams)
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
 
-    if (titleInput.current) {
-      titleInput.current.value = ''
-    }
+  const hasFilters = Object.values(state).some(Boolean)
 
-    if (typeInput.current) {
-      typeInput.current.value = ''
-    }
+  useEffect(
+    function updateSearchParams() {
+      const searchParams = new URLSearchParams()
+
+      Object.entries(state).forEach(([key, value]) => {
+        if (value === '') {
+          searchParams.delete(key)
+        } else {
+          searchParams.set(key, value)
+        }
+      })
+
+      setSearchParams(searchParams)
+    },
+    [state]
+  )
+
+  function handleFilterChange(name: Filter, value: string) {
+    dispatch({
+      type: 'updateFilter',
+      payload: { name, value },
+    })
   }
 
   return (
@@ -39,17 +72,17 @@ const SearchFilters: React.FC = () => {
         <label htmlFor="title" className="mb-1 block">
           Job title
         </label>
+
         <input
-          ref={titleInput}
           type="text"
+          className="border border-gray-500 py-1 px-2"
           id="title"
-          defaultValue={searchParams.get('title') || ''}
+          name="title"
+          value={state.title}
           onChange={(event) => {
             handleFilterChange('title', event.target.value)
           }}
-          name="title"
           placeholder="Search by job title"
-          className="border border-gray-500 py-1 px-2"
         />
       </div>
 
@@ -59,11 +92,10 @@ const SearchFilters: React.FC = () => {
         </label>
 
         <select
-          ref={typeInput}
           name="type"
-          id="type"
           className="border border-gray-500 px-2 py-1"
-          defaultValue={searchParams.get('type') || ''}
+          value={state.type}
+          id="type"
           onChange={(event) => {
             handleFilterChange('type', event.target.value)
           }}
@@ -74,12 +106,10 @@ const SearchFilters: React.FC = () => {
         </select>
       </div>
 
-      <div className="my-3">Filters: {filtersApplied.join(', ')}</div>
-
-      {filtersApplied.length > 0 && (
+      {hasFilters && (
         <button
-          className="mt-4 italic text-gray-800"
-          onClick={handleClearFilters}
+          className="mt-4 text-gray-800 text-blue-800"
+          onClick={() => dispatch({ type: 'clearFilters' })}
         >
           Clear filters
         </button>
