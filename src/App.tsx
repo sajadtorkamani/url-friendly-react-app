@@ -4,10 +4,13 @@ import SearchResults from './components/SearchResults'
 
 const App: React.FC = () => {
   return (
-    <>
-      <SearchFilters />
+    <main className="mx-auto max-w-2xl pt-4">
+      <div className="mb-6">
+        <SearchFilters />
+      </div>
+
       <SearchResults results={[]} />
-    </>
+    </main>
   )
 }
 

@@ -11,11 +11,11 @@ const SearchResults: React.FC<Props> = ({ results }) => {
   }
 
   return (
-    <>
+    <div className="border px-4">
       {results.map((result) => (
         <div key={result.id}>{result.title}</div>
       ))}
-    </>
+    </div>
   )
 }
 
