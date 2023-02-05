@@ -20,9 +20,9 @@ function generateJobs(): Job[] {
     'leeds',
   ]
   const titles = [
-    'Front-end Developer',
-    'Back-end Developer',
-    'Full-stack Developer',
+    'Frontend Developer',
+    'Backend Developer',
+    'Fullstack Developer',
   ]
 
   types.forEach((type, jobTypeIndex) => {

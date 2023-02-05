@@ -39,19 +39,8 @@ const SearchFilters: React.FC = () => {
     [filters]
   )
 
-  useEffect(
-    function searchJobs() {
-      if (!hasFilters) return
-
-      console.log({ hasFilters })
-
-      console.log("Let's search for some jobs...")
-    },
-    [filters]
-  )
-
   return (
-    <div>
+    <section>
       <div className="mb-4">
         <label htmlFor="title" className="mb-1 block">
           Job title
@@ -59,14 +48,14 @@ const SearchFilters: React.FC = () => {
 
         <input
           type="text"
-          className="border border-gray-500 py-1 px-2"
+          className="min-w-[230px] border border-gray-500 py-1 px-2"
           id="title"
           name="title"
           value={filters.title}
           onChange={(event) => {
             updateFilter('title', event.target.value)
           }}
-          placeholder="Search by job title"
+          placeholder="e.g., Frontend developer"
         />
       </div>
 
@@ -125,7 +114,7 @@ const SearchFilters: React.FC = () => {
           Clear filters
         </button>
       )}
-    </div>
+    </section>
   )
 }
 
