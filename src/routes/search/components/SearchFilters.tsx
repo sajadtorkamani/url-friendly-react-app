@@ -47,6 +47,7 @@ const SearchFilters: React.FC = () => {
         </label>
 
         <input
+          autoFocus
           type="text"
           className="min-w-[230px] border border-gray-500 py-1 px-2"
           id="title"
