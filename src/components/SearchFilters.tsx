@@ -1,15 +1,16 @@
-import React from 'react'
-import { history } from '../main'
+import React, { useEffect } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 const SearchFilters: React.FC = () => {
-  const searchParams = new URLSearchParams(window.location.search)
+  const location = useLocation()
+  const [searchParams, setSearchParams] = useSearchParams()
   const title = searchParams.get('title') || ''
 
-  const filtersApplied = Array.from(searchParams.keys())
+  useEffect(() => {
+    // console.log('Search params changed:', location.search)
+  }, [location.search])
 
-  history.listen(({ location, action }) => {
-    console.log({ location, action })
-  })
+  const filtersApplied = Array.from(searchParams.keys())
 
   function handleFilterChange(name: string, value: string) {
     // If user removes a filter, let's delete the param from the URL
@@ -19,15 +20,16 @@ const SearchFilters: React.FC = () => {
       searchParams.set(name, value)
     }
 
-    const newSearchParams =
-      searchParams.toString().length > 1 ? `?${searchParams.toString()}` : ''
-    const newUrl = `${window.location.origin}${history.location.pathname}${newSearchParams}`
+    setSearchParams(searchParams)
+    // const newSearchParams =
+    //   searchParams.toString().length > 1 ? `?${searchParams.toString()}` : ''
+    // const newUrl = `${window.location.origin}${window.location.pathname}${newSearchParams}`
 
-    if (name === 'title') {
-      history.replace(newUrl)
-    } else {
-      history.push(newUrl)
-    }
+    // if (name === 'title') {
+    //   window.history.replaceState({}, '', newUrl)
+    // } else {
+    //   window.history.pushState({}, '', newUrl)
+    // }
   }
 
   return (
