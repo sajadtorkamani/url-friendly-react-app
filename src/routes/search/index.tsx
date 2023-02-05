@@ -1,9 +1,9 @@
 import React from 'react'
+import { useLoaderData } from 'react-router-dom'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
+import { useSearchStore } from '../../stores/search-store'
 import { getJobs } from '../../jobs'
-import { useLoaderData } from 'react-router-dom'
-import { useFilters, useSearchStore } from '../../stores/search-store'
 
 export async function loader() {
   const filters = useSearchStore.getState().filters

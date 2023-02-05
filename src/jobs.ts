@@ -47,7 +47,6 @@ const jobs = generateJobs()
 
 export async function getJobs(filters: SearchFilters): Promise<Job[]> {
   let filteredJobs = jobs
-  // await delay(200)
 
   if (filters.title) {
     filteredJobs = jobs.filter((job) =>
@@ -65,5 +64,6 @@ export async function getJobs(filters: SearchFilters): Promise<Job[]> {
     )
   }
 
+  await delay(500)
   return filteredJobs
 }
