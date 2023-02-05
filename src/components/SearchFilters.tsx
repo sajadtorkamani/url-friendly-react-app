@@ -1,10 +1,15 @@
 import React from 'react'
+import { history } from '../main'
 
 const SearchFilters: React.FC = () => {
   const searchParams = new URLSearchParams(window.location.search)
   const title = searchParams.get('title') || ''
 
-  console.log({ title })
+  const filtersApplied = Array.from(searchParams.keys())
+
+  history.listen(({ location, action }) => {
+    console.log({ location, action })
+  })
 
   function handleFilterChange(name: string, value: string) {
     // If user removes a filter, let's delete the param from the URL
@@ -16,12 +21,12 @@ const SearchFilters: React.FC = () => {
 
     const newSearchParams =
       searchParams.toString().length > 1 ? `?${searchParams.toString()}` : ''
-    const newUrl = `${window.location.origin}${window.location.pathname}${newSearchParams}`
+    const newUrl = `${window.location.origin}${history.location.pathname}${newSearchParams}`
 
     if (name === 'title') {
-      window.history.replaceState({}, '', newUrl)
+      history.replace(newUrl)
     } else {
-      window.history.pushState({}, '', newUrl)
+      history.push(newUrl)
     }
   }
 
@@ -63,6 +68,10 @@ const SearchFilters: React.FC = () => {
           <option value="contract">Contract</option>
         </select>
       </div>
+
+      <div className="my-3">Filters: {filtersApplied.join(', ')}</div>
+
+      <button className="mt-4 italic text-gray-800">Clear filters</button>
     </div>
   )
 }

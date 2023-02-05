@@ -1,6 +1,6 @@
 import React from 'react'
 import SearchFilters from './components/SearchFilters'
-import SearchResults from './components/SearchResults'
+// import SearchResults from './components/SearchResults'
 
 const App: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const App: React.FC = () => {
         <SearchFilters />
       </div>
 
-      <SearchResults results={[]} />
+      {/*<SearchResults results={[]} />*/}
     </main>
   )
 }
