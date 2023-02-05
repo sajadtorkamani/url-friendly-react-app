@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 const filters = ['title', 'type']
@@ -6,6 +6,8 @@ const filters = ['title', 'type']
 const SearchFilters: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const filtersApplied = Array.from(searchParams.keys())
+  const titleInput = useRef<HTMLInputElement | null>(null)
+  const typeInput = useRef<HTMLSelectElement | null>(null)
 
   function handleFilterChange(name: string, value: string) {
     // If user removes a filter, let's delete the param from the URL
@@ -21,6 +23,14 @@ const SearchFilters: React.FC = () => {
   function handleClearFilters() {
     filters.forEach((filter) => searchParams.delete(filter))
     setSearchParams(searchParams)
+
+    if (titleInput.current) {
+      titleInput.current.value = ''
+    }
+
+    if (typeInput.current) {
+      typeInput.current.value = ''
+    }
   }
 
   return (
@@ -30,6 +40,7 @@ const SearchFilters: React.FC = () => {
           Job title
         </label>
         <input
+          ref={titleInput}
           type="text"
           id="title"
           defaultValue={searchParams.get('title') || ''}
@@ -48,6 +59,7 @@ const SearchFilters: React.FC = () => {
         </label>
 
         <select
+          ref={typeInput}
           name="type"
           id="type"
           className="border border-gray-500 px-2 py-1"
