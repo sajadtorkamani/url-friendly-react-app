@@ -8,7 +8,6 @@ const App: React.FC = () => {
       <div className="mb-6">
         <SearchFilters />
       </div>
-
       {/*<SearchResults results={[]} />*/}
     </main>
   )
