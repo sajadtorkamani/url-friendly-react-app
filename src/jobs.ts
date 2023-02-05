@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid'
-import delay from 'delay'
 import { SearchFilters } from './stores/search-store'
 
 export interface Job {
@@ -7,6 +6,31 @@ export interface Job {
   title: string
   type: 'permanent' | 'contract'
   location: 'london' | 'manchester' | 'birmingham' | 'leeds'
+}
+
+const jobs = generateJobs()
+
+export async function getJobs(filters: SearchFilters): Promise<Job[]> {
+  let filteredJobs = jobs
+
+  if (filters.title) {
+    filteredJobs = jobs.filter((job) =>
+      job.title.toLowerCase().includes(filters.title.toLowerCase())
+    )
+  }
+
+  if (filters.type) {
+    filteredJobs = filteredJobs.filter((job) => job.type === filters.type)
+  }
+
+  if (filters.location && filters.location.length > 0) {
+    filteredJobs = filteredJobs.filter((job) =>
+      filters.location.includes(job.location)
+    )
+  }
+
+  // await delay(500)
+  return filteredJobs
 }
 
 function generateJobs(): Job[] {
@@ -41,29 +65,4 @@ function generateJobs(): Job[] {
   })
 
   return jobs
-}
-
-const jobs = generateJobs()
-
-export async function getJobs(filters: SearchFilters): Promise<Job[]> {
-  let filteredJobs = jobs
-
-  if (filters.title) {
-    filteredJobs = jobs.filter((job) =>
-      job.title.toLowerCase().includes(filters.title.toLowerCase())
-    )
-  }
-
-  if (filters.type) {
-    filteredJobs = filteredJobs.filter((job) => job.type === filters.type)
-  }
-
-  if (filters.location && filters.location.length > 0) {
-    filteredJobs = filteredJobs.filter((job) =>
-      filters.location.includes(job.location)
-    )
-  }
-
-  await delay(500)
-  return filteredJobs
 }

@@ -1,13 +1,28 @@
 import React from 'react'
+import { useNavigation } from 'react-router-dom'
+import sample from 'lodash/sample'
 import capitalize from 'lodash/capitalize'
 import { Job } from '../../../jobs'
-import { sample } from 'lodash'
 
 interface Props {
   results: Job[]
 }
 
 const SearchResults: React.FC<Props> = ({ results }) => {
+  const navigation = useNavigation()
+
+  function render() {
+    if (isLoading) {
+      return <div className="text-gray=600">Loading...</div>
+    }
+
+    if (results.length === 0) {
+      return renderNoResultsMessage()
+    }
+
+    return renderResults()
+  }
+
   function renderResults() {
     return (
       <>
@@ -33,15 +48,19 @@ const SearchResults: React.FC<Props> = ({ results }) => {
       'amigo',
       'sénior',
       'pal',
+      'comrade',
       'buddy',
       'monsieur',
     ])
     return <>No results {endearment}</>
   }
 
+  const isLoading =
+    navigation.state === 'loading' && navigation.location.pathname === '/'
+
   return (
     <section className="border-top mt-6 border-t-2 border-gray-200 pt-4">
-      {results.length > 0 ? renderResults() : renderNoResultsMessage()}
+      {render()}
     </section>
   )
 }

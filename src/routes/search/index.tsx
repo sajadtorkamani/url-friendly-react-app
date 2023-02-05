@@ -2,7 +2,7 @@ import React from 'react'
 import { useLoaderData } from 'react-router-dom'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
-import { useSearchStore } from '../../stores/search-store'
+import { useHasFilters, useSearchStore } from '../../stores/search-store'
 import { getJobs } from '../../jobs'
 
 export async function loader() {
@@ -17,11 +17,12 @@ type LoaderData = Awaited<ReturnType<typeof loader>>
 
 const SearchPage: React.FC = () => {
   const { jobs } = useLoaderData() as LoaderData
+  const hasFilters = useHasFilters()
 
   return (
     <>
       <SearchFilters />
-      <SearchResults results={jobs} />
+      {hasFilters && <SearchResults results={jobs} />}
     </>
   )
 }
