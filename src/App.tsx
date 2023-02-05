@@ -4,7 +4,7 @@ import SearchResults from './components/SearchResults'
 
 const App: React.FC = () => {
   return (
-    <main className="mx-auto max-w-2xl pt-4">
+    <main className="mx-auto max-w-2xl pt-6">
       <div className="mb-6">
         <SearchFilters />
       </div>
