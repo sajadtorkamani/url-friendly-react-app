@@ -1,12 +1,11 @@
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+const filters = ['title', 'type']
+
 const SearchFilters: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const title = searchParams.get('title') || ''
   const filtersApplied = Array.from(searchParams.keys())
-
-  const filters = ['title', 'type']
 
   function handleFilterChange(name: string, value: string) {
     // If user removes a filter, let's delete the param from the URL
@@ -33,7 +32,7 @@ const SearchFilters: React.FC = () => {
         <input
           type="text"
           id="title"
-          defaultValue={title}
+          defaultValue={searchParams.get('title') || ''}
           onChange={(event) => {
             handleFilterChange('title', event.target.value)
           }}
