@@ -1,9 +1,12 @@
 import React from 'react'
+import SearchFilters from './components/SearchFilters'
+import SearchResults from './components/SearchResults'
 
 const App: React.FC = () => {
   return (
     <>
-      <h1 className="text-2xl font-bold">Hello World</h1>
+      <SearchFilters />
+      <SearchResults results={[]} />
     </>
   )
 }
