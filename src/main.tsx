@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ReactDOM from 'react-dom/client'
 import Root from './Root'
 import './index.css'
-import SearchPage from './routes/search'
+import SearchPage, { loader as searchLoader } from './routes/search'
 import AboutPage from './routes/about'
 
 const router = createBrowserRouter([
@@ -12,6 +12,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
+        loader: searchLoader,
         path: '',
         index: true,
         element: <SearchPage />,

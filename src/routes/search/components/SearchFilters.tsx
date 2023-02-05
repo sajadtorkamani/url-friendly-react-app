@@ -118,9 +118,10 @@ const SearchFilters: React.FC = () => {
 
       {hasFilters && (
         <button
-          className="mt-4 text-gray-800 text-blue-800"
+          className="d-flex mt-4 text-gray-800 text-blue-800"
           onClick={() => clearFilters()}
         >
+          <span className="mr-2">✕</span>
           Clear filters
         </button>
       )}

@@ -9,10 +9,13 @@ interface State {
   hasFilters: () => boolean
 }
 
-type Filters = State['filters']
+export type SearchFilters = State['filters']
 
 interface Actions {
-  updateFilter: (key: keyof Filters, value: Filters[keyof Filters]) => void
+  updateFilter: (
+    key: keyof SearchFilters,
+    value: SearchFilters[keyof SearchFilters]
+  ) => void
   clearFilters: () => void
 }
 
