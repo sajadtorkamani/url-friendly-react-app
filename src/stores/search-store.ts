@@ -94,7 +94,5 @@ export const useSearchStore = create<Store>((set, get) => {
 })
 
 export const useFilters = () => useSearchStore((state) => state.filters)
-
 export const useHasFilters = () => useSearchStore((state) => state.hasFilters())
-
 export const useActions = () => useSearchStore((state) => state.actions)
