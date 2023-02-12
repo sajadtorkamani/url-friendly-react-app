@@ -20,7 +20,7 @@ const SearchFilters: React.FC = () => {
         <input
           autoFocus
           type="text"
-          className="min-w-[230px] border border-gray-500 py-1 px-2"
+          className="w-full min-w-[230px] border border-gray-500 py-1 px-2"
           id="title"
           name="title"
           value={filters.title}
@@ -38,7 +38,7 @@ const SearchFilters: React.FC = () => {
 
         <select
           name="type"
-          className="border border-gray-500 px-2 py-1"
+          className="w-full border border-gray-500 px-2 py-1"
           value={filters.type}
           id="type"
           onChange={(event) => {
@@ -59,7 +59,7 @@ const SearchFilters: React.FC = () => {
         <select
           name="location"
           multiple
-          className="border border-gray-500 px-2 py-1"
+          className="w-full border border-gray-500 px-2 py-1"
           value={filters.location}
           id="location"
           onChange={(event) => {

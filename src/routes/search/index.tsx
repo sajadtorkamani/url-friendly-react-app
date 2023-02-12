@@ -35,10 +35,11 @@ const SearchPage: React.FC = () => {
   }
 
   return (
-    <div className="flex">
-      <aside className="md:w-[280px] border border-gray-300 p-4">
+    <div className="flex flex-col md:flex-row">
+      <aside className="md:w-lg border border-gray-300 p-4 mb-5 md:mb-0">
         <SearchFilters />
       </aside>
+
       <SearchResults results={jobs || []} isLoading={isLoading} />
     </div>
   )

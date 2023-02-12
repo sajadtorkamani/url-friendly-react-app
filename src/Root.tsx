@@ -7,8 +7,8 @@ const queryClient = new QueryClient()
 
 const Root: React.FC = () => (
   <QueryClientProvider client={queryClient}>
-    <main className="mx-auto max-w-6xl">
-      <nav className="pt-4 pb-8">
+    <main className="mx-auto max-w-6xl p-4">
+      <nav className="pt-2 pb-6">
         <ul className="flex">
           {[
             { label: 'Search', path: '/' },

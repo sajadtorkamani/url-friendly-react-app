@@ -24,6 +24,8 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
   function renderResults() {
     return (
       <>
+        <div className="text-gray-600 text-sm mb-2">Showing {results.length} jobs</div>
+
         {results.map((job) => (
           <div key={job.id} className="mb-3 border border-gray-300 p-4">
             <h3 className="mb-2 flex items-center">
@@ -53,11 +55,7 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
     return <>No results {endearment}</>
   }
 
-  return (
-    <section className="flex-1 md:ml-6">
-      {render()}
-    </section>
-  )
+  return <section className="flex-1 md:ml-6">{render()}</section>
 }
 
 export default SearchResults
