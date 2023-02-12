@@ -13,6 +13,7 @@ export interface Job {
 const jobs = generateJobs()
 
 export async function getJobs(filters: SearchFilters): Promise<Job[]> {
+  console.log('Fetching jobs...')
   let filteredJobs = jobs
 
   if (filters.title) {
