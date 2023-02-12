@@ -10,11 +10,8 @@ const SearchPage: React.FC = () => {
   const { isLoading, isError, error, data } = useQuery({
     queryKey: ['jobs', filters],
     queryFn: () => getJobs(filters),
+    keepPreviousData: true,
   })
-
-  if (isLoading) {
-    return <p>Loading...</p>
-  }
 
   if (isError) {
     throw error
@@ -23,7 +20,7 @@ const SearchPage: React.FC = () => {
   return (
     <>
       <SearchFilters />
-      <SearchResults results={data} />
+      <SearchResults results={data} isLoading={isLoading} />
     </>
   )
 }

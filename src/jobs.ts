@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid'
 import { SearchFilters } from './stores/search-store'
+import delay from "delay";
 
 export interface Job {
   id: string
@@ -29,7 +30,7 @@ export async function getJobs(filters: SearchFilters): Promise<Job[]> {
     )
   }
 
-  // await delay(500)
+  await delay(200)
   return filteredJobs
 }
 

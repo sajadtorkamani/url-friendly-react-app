@@ -1,16 +1,14 @@
 import React from 'react'
-import { useNavigation } from 'react-router-dom'
 import sample from 'lodash/sample'
 import capitalize from 'lodash/capitalize'
 import { Job } from '../../../jobs'
 
 interface Props {
+  isLoading: boolean
   results: Job[]
 }
 
-const SearchResults: React.FC<Props> = ({ results }) => {
-  const navigation = useNavigation()
-
+const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
   function render() {
     if (isLoading) {
       return <div className="text-gray=600">Loading...</div>
@@ -54,9 +52,6 @@ const SearchResults: React.FC<Props> = ({ results }) => {
     ])
     return <>No results {endearment}</>
   }
-
-  const isLoading =
-    navigation.state === 'loading' && navigation.location.pathname === '/'
 
   return (
     <section className="border-top mt-6 border-t-2 border-gray-200 pt-4">
