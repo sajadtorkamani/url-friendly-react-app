@@ -8,12 +8,13 @@ import { getJobs } from '../../jobs'
 export async function loader() {
   const filters = useSearchStore.getState().filters
   const hasFilters = useSearchStore.getState().hasFilters()
+  debugger
   const jobs = hasFilters ? await getJobs(filters) : []
 
   return { jobs }
 }
 
-type LoaderData = Awaited<ReturnType<typeof loader>>
+type LoaderData = Awaited<ReturnType<typeof loader>>  t
 
 const SearchPage: React.FC = () => {
   const { jobs } = useLoaderData() as LoaderData
