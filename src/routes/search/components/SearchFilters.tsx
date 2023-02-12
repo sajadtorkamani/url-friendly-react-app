@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { debounce } from 'lodash'
 import {
   useActions,
   useFilters,
@@ -10,6 +11,10 @@ const SearchFilters: React.FC = () => {
   const hasFilters = useHasFilters()
   const { updateFilter, clearFilters } = useActions()
   const jobTitleInputRef = useRef<HTMLInputElement | null>(null)
+
+  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    updateFilter('title', event.target.value)
+  }
 
   return (
     <section>
@@ -25,11 +30,9 @@ const SearchFilters: React.FC = () => {
           className="w-full min-w-[230px] border border-gray-500 py-1 px-2"
           id="title"
           name="title"
-          value={filters.title}
-          onChange={(event) => {
-            updateFilter('title', event.target.value)
-          }}
-          placeholder="e.g., Frontend developer"
+          defaultValue={filters.title}
+          onChange={debounce(handleTitleChange, 300)}
+          placeholder="e.g., Ruby ninja"
         />
       </div>
 
