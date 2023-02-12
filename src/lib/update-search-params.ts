@@ -1,4 +1,3 @@
-// Update URL search params
 export function updateSearchParams(
   key: string,
   value: string | string[]

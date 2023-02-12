@@ -59,6 +59,8 @@ export const useSearchStore = create<Store>((set, get) => {
           },
         }))
 
+        // Could probably debounce the updateSearchParams call if updating the
+        // job title filter.
         const newSearchParamsString = updateSearchParams(key, value)
 
         // Push new entry into the session history with updated search params
