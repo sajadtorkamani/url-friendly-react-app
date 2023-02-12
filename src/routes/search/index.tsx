@@ -7,7 +7,7 @@ import { getJobs } from '../../lib/jobs'
 
 const SearchPage: React.FC = () => {
   const filters = useFilters()
-  const { initialiseFilterFromUrl } = useActions()
+  const { initializeFiltersFromUrl } = useActions()
 
   const {
     isLoading,
@@ -25,7 +25,7 @@ const SearchPage: React.FC = () => {
       // This event handler will be called when the presses the browser's back
       // or forward button.
       // We need to update the filters in the store to match the URL search params.
-      initialiseFilterFromUrl()
+      initializeFiltersFromUrl()
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     })
   }, [])

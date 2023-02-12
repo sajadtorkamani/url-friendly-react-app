@@ -12,13 +12,19 @@ interface State {
 
 export type SearchFilters = State['filters']
 
+const INITIAL_FILTERS: SearchFilters = {
+  title: '',
+  type: '',
+  location: [],
+}
+
 interface Actions {
   updateFilter: (
     key: keyof SearchFilters,
     value: SearchFilters[keyof SearchFilters]
   ) => void
   clearFilters: () => void
-  initialiseFilterFromUrl: () => void
+  initializeFiltersFromUrl: () => void
 }
 
 type Store = State & { actions: Actions }
@@ -28,9 +34,9 @@ export const useSearchStore = create<Store>((set, get) => {
 
   return {
     filters: {
-      title: searchParams.get('title') || '',
-      type: searchParams.get('type') || '',
-      location: searchParams.getAll('location') || [],
+      title: searchParams.get('title') || INITIAL_FILTERS.title,
+      type: searchParams.get('type') || INITIAL_FILTERS.type,
+      location: searchParams.getAll('location') || INITIAL_FILTERS.location,
     },
 
     hasFilters: () => {
@@ -69,16 +75,24 @@ export const useSearchStore = create<Store>((set, get) => {
       },
 
       // Initialise filters from URL search params
-      initialiseFilterFromUrl: () => {
+      initializeFiltersFromUrl: () => {
         const searchParams = new URLSearchParams(window.location.search)
 
         set((state) => ({
           ...state,
           filters: {
-            title: searchParams.get('title') || state.filters.title || '',
-            type: searchParams.get('type') || state.filters.type || '',
+            title:
+              searchParams.get('title') ||
+              state.filters.title ||
+              INITIAL_FILTERS.title,
+            type:
+              searchParams.get('type') ||
+              state.filters.type ||
+              INITIAL_FILTERS.type,
             location:
-              searchParams.getAll('location') || state.filters.location || [],
+              searchParams.getAll('location') ||
+              state.filters.location ||
+              INITIAL_FILTERS.location,
           },
         }))
       },
