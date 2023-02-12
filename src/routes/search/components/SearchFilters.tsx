@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   useActions,
   useFilters,
@@ -9,6 +9,7 @@ const SearchFilters: React.FC = () => {
   const filters = useFilters()
   const hasFilters = useHasFilters()
   const { updateFilter, clearFilters } = useActions()
+  const jobTitleInputRef = useRef<HTMLInputElement | null>(null)
 
   return (
     <section>
@@ -18,6 +19,7 @@ const SearchFilters: React.FC = () => {
         </label>
 
         <input
+          ref={jobTitleInputRef}
           autoFocus
           type="text"
           className="w-full min-w-[230px] border border-gray-500 py-1 px-2"
@@ -80,7 +82,12 @@ const SearchFilters: React.FC = () => {
       {hasFilters && (
         <button
           className="d-flex mt-4 text-gray-800 text-blue-800"
-          onClick={() => clearFilters()}
+          onClick={() => {
+            clearFilters()
+            if (jobTitleInputRef.current) {
+              jobTitleInputRef.current.focus()
+            }
+          }}
         >
           <span className="mr-2">✕</span>
           Clear filters
