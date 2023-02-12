@@ -54,9 +54,9 @@ export const useSearchStore = create<Store>((set, get) => {
 
         // Update URL search params
         function buildSearchParams() {
-          const searchParams = new URLSearchParams()
+          const searchParams = new URLSearchParams(window.location.search)
 
-          // Handle empty values
+          // Handle empty values by removing the search param
           if (value === '') {
             searchParams.delete(key)
             return searchParams
