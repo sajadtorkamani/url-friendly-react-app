@@ -1,29 +1,29 @@
 import React from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
-import { useHasFilters, useSearchStore } from '../../stores/search-store'
+import { useFilters } from '../../stores/search-store'
 import { getJobs } from '../../jobs'
 
-export async function loader() {
-  const filters = useSearchStore.getState().filters
-  const hasFilters = useSearchStore.getState().hasFilters()
-  debugger
-  const jobs = hasFilters ? await getJobs(filters) : []
-
-  return { jobs }
-}
-
-type LoaderData = Awaited<ReturnType<typeof loader>>  t
-
 const SearchPage: React.FC = () => {
-  const { jobs } = useLoaderData() as LoaderData
-  const hasFilters = useHasFilters()
+  const filters = useFilters()
+  const { isLoading, isError, error, data } = useQuery({
+    queryKey: ['jobs', filters],
+    queryFn: () => getJobs(filters),
+  })
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
+  if (isError) {
+    throw error
+  }
 
   return (
     <>
       <SearchFilters />
-      {hasFilters && <SearchResults results={jobs} />}
+      <SearchResults results={data} />
     </>
   )
 }
