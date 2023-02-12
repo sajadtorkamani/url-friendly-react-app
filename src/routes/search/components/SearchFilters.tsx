@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import {
   useActions,
   useFilters,
@@ -7,37 +6,20 @@ import {
 } from '../../../stores/search-store'
 
 const SearchFilters: React.FC = () => {
-  const [, setSearchParams] = useSearchParams()
   const filters = useFilters()
   const hasFilters = useHasFilters()
-  const { updateFilter, clearFilters } = useActions()
+  const { updateFilter, initialiseFilters, clearFilters } = useActions()
 
-  useEffect(
-    function updateSearchParams() {
-      const searchParams = new URLSearchParams()
+  useEffect(() => {
+    window.addEventListener('popstate', function handleNavigation() {
+      // User has pressed back or forward button
+      // We need to update the filters in the store
+      // window.history.go()
+      initialiseFilters()
+      console.log(`window.popstate invoked`)
 
-      Object.entries(filters).forEach(([key, value]) => {
-        // Handle empty values
-        if (value === '') {
-          searchParams.delete(key)
-          return
-        }
-
-        // Handle multiple values
-        if (Array.isArray(value)) {
-          searchParams.delete(key) // Delete all values and rebuild in next line
-          value.forEach((arrayValue) => searchParams.append(key, arrayValue))
-          return
-        }
-
-        // Handle scalar values
-        searchParams.set(key, value)
-      })
-
-      setSearchParams(searchParams)
-    },
-    [filters]
-  )
+    })
+  }, [])
 
   return (
     <section>
