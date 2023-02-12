@@ -32,6 +32,7 @@ const SearchFilters: React.FC = () => {
           className="w-full min-w-[230px] border border-gray-500 py-1 px-2"
           id="title"
           name="title"
+          value={filters.title}
           onChange={(event) => updateFilter('title', event.target.value)}
           placeholder="e.g., Ruby ninja"
         />

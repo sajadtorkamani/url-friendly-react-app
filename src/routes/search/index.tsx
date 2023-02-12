@@ -1,19 +1,15 @@
 import React, { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import isEqual from 'lodash/isEqual'
+import { useDebounce } from 'use-debounce'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
-import {
-  useActions,
-  useFilters,
-  SearchFilters as SearchFiltersType,
-} from '../../stores/search-store'
+import { useActions, useFilters } from '../../stores/search-store'
 import { getJobs } from '../../lib/jobs'
-import { debounce } from 'lodash'
-import { useDebounce } from "use-debounce";
 
 const SearchPage: React.FC = () => {
   const filters = useFilters()
-  const debouncedTitle = useDebounce(filters.title, 400)
+  const debouncedFilters = useDebounce(filters, 400, { equalityFn: isEqual })
   const { initializeFiltersFromUrl } = useActions()
 
   const {
@@ -22,14 +18,7 @@ const SearchPage: React.FC = () => {
     error,
     data: jobs,
   } = useQuery({
-    queryKey: [
-      'jobs',
-      {
-        title: debouncedTitle,
-        location: filters.location,
-        type: filters.type,
-      },
-    ],
+    queryKey: ['jobs', { filters: debouncedFilters }],
     queryFn: () => getJobs(filters),
     keepPreviousData: true,
   })
