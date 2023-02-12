@@ -9,7 +9,12 @@ const SearchPage: React.FC = () => {
   const filters = useFilters()
   const { initialiseFilterFromUrl } = useActions()
 
-  const { isLoading, isError, error, data } = useQuery({
+  const {
+    isLoading,
+    isError,
+    error,
+    data: jobs,
+  } = useQuery({
     queryKey: ['jobs', filters],
     queryFn: () => getJobs(filters),
     keepPreviousData: true,
@@ -32,7 +37,7 @@ const SearchPage: React.FC = () => {
   return (
     <>
       <SearchFilters />
-      <SearchResults results={data} isLoading={isLoading} />
+      <SearchResults results={jobs || []} isLoading={isLoading} />
     </>
   )
 }
