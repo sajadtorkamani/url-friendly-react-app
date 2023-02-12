@@ -77,22 +77,13 @@ export const useSearchStore = create<Store>((set, get) => {
       // Initialise filters from URL search params
       initializeFiltersFromUrl: () => {
         const searchParams = new URLSearchParams(window.location.search)
-
         set((state) => ({
           ...state,
           filters: {
-            title:
-              searchParams.get('title') ||
-              state.filters.title ||
-              INITIAL_FILTERS.title,
-            type:
-              searchParams.get('type') ||
-              state.filters.type ||
-              INITIAL_FILTERS.type,
+            title: searchParams.get('title') || INITIAL_FILTERS.title,
+            type: searchParams.get('type') || INITIAL_FILTERS.type,
             location:
-              searchParams.getAll('location') ||
-              state.filters.location ||
-              INITIAL_FILTERS.location,
+              searchParams.getAll('location') || INITIAL_FILTERS.location,
           },
         }))
       },

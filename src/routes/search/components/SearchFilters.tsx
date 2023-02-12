@@ -16,6 +16,15 @@ const SearchFilters: React.FC = () => {
     updateFilter('title', event.target.value)
   }
 
+  function handleClearFilters() {
+    clearFilters()
+
+    if (jobTitleInputRef.current) {
+      jobTitleInputRef.current.value = ''
+      jobTitleInputRef.current.focus()
+    }
+  }
+
   return (
     <section>
       <div className="mb-4">
@@ -85,12 +94,7 @@ const SearchFilters: React.FC = () => {
       {hasFilters && (
         <button
           className="d-flex mt-4 text-gray-800 text-blue-800"
-          onClick={() => {
-            clearFilters()
-            if (jobTitleInputRef.current) {
-              jobTitleInputRef.current.focus()
-            }
-          }}
+          onClick={handleClearFilters}
         >
           <span className="mr-2">✕</span>
           Clear filters

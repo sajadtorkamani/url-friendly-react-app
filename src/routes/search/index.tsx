@@ -25,6 +25,7 @@ const SearchPage: React.FC = () => {
       // This event handler will be called when the presses the browser's back
       // or forward button.
       // We need to update the filters in the store to match the URL search params.
+      console.log('popstate')
       initializeFiltersFromUrl()
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     })
@@ -36,7 +37,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
-      <aside className="md:w-lg border border-gray-300 p-4 mb-5 md:mb-0">
+      <aside className="md:w-lg mb-5 border border-gray-300 p-4 md:mb-0">
         <SearchFilters />
       </aside>
 
