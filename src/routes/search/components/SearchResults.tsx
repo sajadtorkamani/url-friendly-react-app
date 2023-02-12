@@ -54,7 +54,7 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
   }
 
   return (
-    <section className="border-top mt-6 border-t-2 border-gray-200 pt-4">
+    <section className="flex-1 md:ml-6">
       {render()}
     </section>
   )

@@ -7,7 +7,7 @@ const queryClient = new QueryClient()
 
 const Root: React.FC = () => (
   <QueryClientProvider client={queryClient}>
-    <main className="mx-auto max-w-2xl">
+    <main className="mx-auto max-w-6xl">
       <nav className="pt-4 pb-8">
         <ul className="flex">
           {[
