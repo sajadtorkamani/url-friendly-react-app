@@ -1,7 +1,7 @@
 import React from 'react'
 import sample from 'lodash/sample'
 import capitalize from 'lodash/capitalize'
-import { Job } from '../../../jobs'
+import { Job } from '../../../lib/jobs'
 
 interface Props {
   isLoading: boolean

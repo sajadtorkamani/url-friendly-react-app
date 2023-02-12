@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { SearchFilters } from './stores/search-store'
+import { SearchFilters } from '../stores/search-store'
 import delay from 'delay'
 import sample from 'lodash/sample'
 

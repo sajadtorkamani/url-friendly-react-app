@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
 import { useActions, useFilters } from '../../stores/search-store'
-import { getJobs } from '../../jobs'
+import { getJobs } from '../../lib/jobs'
 
 const SearchPage: React.FC = () => {
   const filters = useFilters()

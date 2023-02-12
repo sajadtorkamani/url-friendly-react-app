@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { updateSearchParams } from '../lib/update-search-params'
 
 interface State {
   filters: {
@@ -52,32 +53,10 @@ export const useSearchStore = create<Store>((set, get) => {
           },
         }))
 
-        // Update URL search params
-        function buildSearchParams() {
-          const searchParams = new URLSearchParams(window.location.search)
-
-          // Handle empty values by removing the search param
-          if (value === '') {
-            searchParams.delete(key)
-            return searchParams
-          }
-
-          // Handle multiple values
-          if (Array.isArray(value)) {
-            searchParams.delete(key) // Delete all values and rebuild in next line
-            value.forEach((arrayValue) => searchParams.append(key, arrayValue))
-            return searchParams
-          }
-
-          // Handle scalar values
-          searchParams.set(key, value)
-          return searchParams
-        }
-
-        const searchParamsString = buildSearchParams().toString()
+        const newSearchParamsString = updateSearchParams(key, value)
 
         // Push new entry into the session history with updated search params
-        window.history.pushState({}, '', `?${searchParamsString}`)
+        window.history.pushState({}, '', `?${newSearchParamsString}`)
       },
 
       clearFilters: () => {
