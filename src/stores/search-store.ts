@@ -17,7 +17,7 @@ interface Actions {
     value: SearchFilters[keyof SearchFilters]
   ) => void
   clearFilters: () => void
-  initialiseFilters: () => void
+  initialiseFilterFromUrl: () => void
 }
 
 type Store = State & { actions: Actions }
@@ -90,7 +90,7 @@ export const useSearchStore = create<Store>((set, get) => {
       },
 
       // Initialise filters from URL search params
-      initialiseFilters: () => {
+      initialiseFilterFromUrl: () => {
         const searchParams = new URLSearchParams(window.location.search)
 
         set((state) => ({

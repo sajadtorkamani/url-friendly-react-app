@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
 import { SearchFilters } from './stores/search-store'
-import delay from "delay";
+import delay from 'delay'
+import sample from 'lodash/sample'
 
 export interface Job {
   id: string
@@ -44,20 +45,23 @@ function generateJobs(): Job[] {
     'birmingham',
     'leeds',
   ]
-  const titles = [
-    'Frontend Developer',
-    'Backend Developer',
-    'Fullstack Developer',
-  ]
+
+  const languages = ['Java', 'TypeScript', 'Ruby', 'PHP']
 
   types.forEach((type, jobTypeIndex) => {
     locations.forEach((location) => {
-      titles.forEach((jobTitle) => {
+      languages.forEach((language) => {
         const id = nanoid()
+
+        const title = `${language} ${sample([
+          'Developer',
+          'Engineer',
+          'Ninja',
+        ])}`
 
         jobs.push({
           id,
-          title: jobTitle,
+          title,
           type: type,
           location: location,
         })

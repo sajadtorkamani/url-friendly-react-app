@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   useActions,
   useFilters,
@@ -8,18 +8,7 @@ import {
 const SearchFilters: React.FC = () => {
   const filters = useFilters()
   const hasFilters = useHasFilters()
-  const { updateFilter, initialiseFilters, clearFilters } = useActions()
-
-  useEffect(() => {
-    window.addEventListener('popstate', function handleNavigation() {
-      // User has pressed back or forward button
-      // We need to update the filters in the store
-      // window.history.go()
-      initialiseFilters()
-      console.log(`window.popstate invoked`)
-
-    })
-  }, [])
+  const { updateFilter, clearFilters } = useActions()
 
   return (
     <section>
