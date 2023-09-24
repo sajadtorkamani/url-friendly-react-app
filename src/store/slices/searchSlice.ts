@@ -98,7 +98,6 @@ export const selectHasFilters = createSelector(
 
 export function syncSearchSliceWithUrl(state: SearchState) {
   const filters = state.filters
-
   const queryParams = new URLSearchParams(window.location.search)
 
   // Handle title
@@ -116,7 +115,6 @@ export function syncSearchSliceWithUrl(state: SearchState) {
     queryParams.set(SEARCH_FILTERS.location, filters.location.join(','))
   }
 
-  // Create a new URL object
   const url = new URL(window.location.href)
   url.search = queryParams.toString()
 
