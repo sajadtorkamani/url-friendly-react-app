@@ -43,6 +43,15 @@ export const searchSlice = createSlice({
           state.filters.type = type
         }
       }
+
+      // Handle job location
+      if (queryParams.has('location')) {
+        const location = (queryParams.get('location') || '').split(',')
+
+        if (location.length > 0) {
+          state.filters.location = location
+        }
+      }
     },
 
     updateFilters: (state, action: PayloadAction<Partial<SearchFilters>>) => {

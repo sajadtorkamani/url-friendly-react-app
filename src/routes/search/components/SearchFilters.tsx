@@ -99,11 +99,14 @@ const SearchFilters: React.FC = () => {
           value={filters.location}
           id="location"
           onChange={(event) => {
-            const selectedValues = [...event.target.options]
+            const selectedValues = Array.from(event.target.options)
               .filter((option) => option.selected)
               .map((option) => option.value)
 
             dispatch(updateFilters({ location: selectedValues }))
+
+            searchParams.set('location', selectedValues.join(','))
+            setSearchParams(searchParams)
           }}
         >
           <option value="london">London</option>
