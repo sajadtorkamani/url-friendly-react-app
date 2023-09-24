@@ -55,7 +55,12 @@ const SearchFilters: React.FC = () => {
 
             dispatch(updateFilters({ title: value }))
 
-            searchParams.set('title', value)
+            if (value.trim().length > 0) {
+              searchParams.set('title', value)
+            } else {
+              searchParams.delete('title')
+            }
+
             setSearchParams(searchParams)
           }}
           placeholder="e.g., Ruby ninja"
@@ -77,7 +82,12 @@ const SearchFilters: React.FC = () => {
 
             dispatch(updateFilters({ type: value }))
 
-            searchParams.set('type', value)
+            if (value.trim().length > 0) {
+              searchParams.set('type', value)
+            } else {
+              searchParams.delete('type')
+            }
+
             setSearchParams(searchParams)
           }}
         >
@@ -105,7 +115,12 @@ const SearchFilters: React.FC = () => {
 
             dispatch(updateFilters({ location: selectedValues }))
 
-            searchParams.set('location', selectedValues.join(','))
+            if (selectedValues.length > 0) {
+              searchParams.set('location', selectedValues.join(','))
+            } else {
+              searchParams.delete('location')
+            }
+
             setSearchParams(searchParams)
           }}
         >

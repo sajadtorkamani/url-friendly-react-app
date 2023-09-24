@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import isEqual from 'lodash/isEqual'
-import { useDebounce } from 'use-debounce'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
 import { getJobs } from '../../lib/jobs'

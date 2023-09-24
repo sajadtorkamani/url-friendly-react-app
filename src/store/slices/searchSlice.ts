@@ -1,9 +1,4 @@
-import {
-  createSelector,
-  createSlice,
-  original,
-  PayloadAction,
-} from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../index'
 
 interface SearchState {
@@ -108,7 +103,7 @@ export function syncSearchSliceWithUrl(state: SearchState) {
   }
 
   // Handle location
-  if (filters.location) {
+  if (filters.location.length > 0) {
     queryParams.set('location', filters.location.join(','))
   }
 
