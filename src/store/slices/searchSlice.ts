@@ -97,17 +97,27 @@ export function syncSearchSliceWithUrl(state: SearchState) {
 
   const queryParams = new URLSearchParams(window.location.search)
 
+  // Handle title
   if (filters.title) {
-    console.log('title', filters.title)
     queryParams.set('title', filters.title)
-
-    // Create a new URL object
-    const url = new URL(window.location.href)
-    url.search = queryParams.toString()
-
-    // Update the current URL
-    history.pushState({}, '', url.toString())
   }
+
+  // Handle type
+  if (filters.type) {
+    queryParams.set('type', filters.type)
+  }
+
+  // Handle location
+  if (filters.location) {
+    queryParams.set('location', filters.location.join(','))
+  }
+
+  // Create a new URL object
+  const url = new URL(window.location.href)
+  url.search = queryParams.toString()
+
+  // Update the current URL
+  history.pushState({}, '', url.toString())
 }
 
 export const { initializeFromUrl, updateFilters, clearFilters } =
