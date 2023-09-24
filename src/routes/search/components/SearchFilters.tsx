@@ -1,18 +1,35 @@
 import React, { useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../../hooks/app'
 import {
-  useActions,
-  useFilters,
-  useHasFilters,
-} from '../../../stores/search-store'
+  clearFilters,
+  selectHasFilters,
+  selectSearchFilters,
+  updateFilters,
+} from '../../../store/slices/searchSlice'
 
 const SearchFilters: React.FC = () => {
-  const filters = useFilters()
-  const hasFilters = useHasFilters()
-  const { updateFilter, clearFilters } = useActions()
+  const filters = useAppSelector(selectSearchFilters)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const hasFilters = useAppSelector(selectHasFilters)
+  const dispatch = useAppDispatch()
   const jobTitleInputRef = useRef<HTMLInputElement | null>(null)
+  //
+  // // Initialize state from URL on load
+  // useEffect(() => {
+  //   searchParams.forEach((value, key) => {
+  //     dispatch(updateFilters({ [key]: value }))
+  //   })
+  // }, [dispatch])
 
   function handleClearFilters() {
-    clearFilters()
+    dispatch(clearFilters())
+
+    searchParams.delete('title')
+    searchParams.delete('type')
+    searchParams.delete('location')
+    setSearchParams(searchParams)
+
     if (jobTitleInputRef.current) {
       jobTitleInputRef.current.focus()
     }
@@ -33,7 +50,19 @@ const SearchFilters: React.FC = () => {
           id="title"
           name="title"
           value={filters.title}
-          onChange={(event) => updateFilter('title', event.target.value)}
+          onChange={(event) => {
+            const value = event.target.value
+
+            dispatch(updateFilters({ title: value }))
+
+            if (value.trim().length > 0) {
+              searchParams.set('title', value)
+            } else {
+              searchParams.delete('title')
+            }
+
+            setSearchParams(searchParams)
+          }}
           placeholder="e.g., Ruby ninja"
         />
       </div>
@@ -49,7 +78,17 @@ const SearchFilters: React.FC = () => {
           value={filters.type}
           id="type"
           onChange={(event) => {
-            updateFilter('type', event.target.value)
+            const value = event.target.value
+
+            dispatch(updateFilters({ type: value }))
+
+            if (value.trim().length > 0) {
+              searchParams.set('type', value)
+            } else {
+              searchParams.delete('type')
+            }
+
+            setSearchParams(searchParams)
           }}
         >
           <option value="">Any</option>
@@ -70,11 +109,19 @@ const SearchFilters: React.FC = () => {
           value={filters.location}
           id="location"
           onChange={(event) => {
-            const selectedValues = [...event.target.options]
+            const selectedValues = Array.from(event.target.options)
               .filter((option) => option.selected)
               .map((option) => option.value)
 
-            updateFilter('location', selectedValues)
+            dispatch(updateFilters({ location: selectedValues }))
+
+            if (selectedValues.length > 0) {
+              searchParams.set('location', selectedValues.join(','))
+            } else {
+              searchParams.delete('location')
+            }
+
+            setSearchParams(searchParams)
           }}
         >
           <option value="london">London</option>
@@ -86,8 +133,8 @@ const SearchFilters: React.FC = () => {
 
       {hasFilters && (
         <button
-          className="d-flex mt-4 text-gray-800 text-blue-800"
-          onClick={handleClearFilters}
+          className="d-flex mt-4 text-blue-800"
+          onClick={() => handleClearFilters()}
         >
           <span className="mr-2">✕</span>
           Clear filters

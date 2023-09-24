@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import isEqual from 'lodash/isEqual'
-import { useDebounce } from 'use-debounce'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
-import { useActions, useFilters } from '../../stores/search-store'
 import { getJobs } from '../../lib/jobs'
+import { selectSearchFilters } from '../../store/slices/searchSlice'
+import { useAppSelector } from '../../hooks/app'
 
 const SearchPage: React.FC = () => {
-  const filters = useFilters()
-  const debouncedFilters = useDebounce(filters, 400, { equalityFn: isEqual })
-  const { initializeFiltersFromUrl } = useActions()
+  const filters = useAppSelector(selectSearchFilters)
 
   const {
     isLoading,
@@ -18,17 +15,17 @@ const SearchPage: React.FC = () => {
     error,
     data: jobs,
   } = useQuery({
-    queryKey: ['jobs', { filters: debouncedFilters }],
+    queryKey: ['jobs', { filters }],
     queryFn: () => getJobs(filters),
     keepPreviousData: true,
   })
 
   useEffect(() => {
     window.addEventListener('popstate', function handleNavigation() {
-      // This event handler will be called when the presses the browser's back
-      // or forward button.
-      // We need to update the filters in the store to match the URL search params.
-      initializeFiltersFromUrl()
+      // This event handler will be called when the user presses the browser's back
+      // or forward button. We need to update the filters in the store to match the
+      // URL search params.
+      // dispatch(initializeFiltersFromUrl())
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     })
   }, [])

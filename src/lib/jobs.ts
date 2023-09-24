@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
-import { SearchFilters } from '../stores/search-store'
 import delay from 'delay'
 import sample from 'lodash/sample'
+import { SearchFilters } from '../store/slices/searchSlice'
 
 export interface Job {
   id: string
@@ -37,7 +37,7 @@ export async function getJobs(filters: SearchFilters): Promise<Job[]> {
 }
 
 function generateJobs(): Job[] {
-  let jobs: Job[] = []
+  const jobs: Job[] = []
 
   const types: Job['type'][] = ['permanent', 'contract']
   const locations: Job['location'][] = [
@@ -49,7 +49,7 @@ function generateJobs(): Job[] {
 
   const languages = ['Java', 'TypeScript', 'Ruby', 'PHP']
 
-  types.forEach((type, jobTypeIndex) => {
+  types.forEach((type) => {
     locations.forEach((location) => {
       languages.forEach((language) => {
         const id = nanoid()
