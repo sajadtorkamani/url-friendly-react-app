@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
@@ -19,16 +19,6 @@ const SearchPage: React.FC = () => {
     queryFn: () => getJobs(filters),
     keepPreviousData: true,
   })
-
-  useEffect(() => {
-    window.addEventListener('popstate', function handleNavigation() {
-      // This event handler will be called when the user presses the browser's back
-      // or forward button. We need to update the filters in the store to match the
-      // URL search params.
-      // dispatch(initializeFiltersFromUrl())
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-    })
-  }, [])
 
   if (isError) {
     throw error
