@@ -14,7 +14,7 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
     }
 
     if (results.length === 0) {
-      return renderNoResultsMessage()
+      return <>No results found</>
     }
 
     return renderResults()
@@ -41,10 +41,6 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
         ))}
       </>
     )
-  }
-
-  function renderNoResultsMessage() {
-    return <>No results found</>
   }
 
   return <section className="flex-1 md:ml-6">{render()}</section>
