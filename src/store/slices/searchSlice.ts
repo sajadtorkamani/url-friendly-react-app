@@ -26,12 +26,23 @@ export const searchSlice = createSlice({
     initializeFromUrl: (state) => {
       const queryParams = new URLSearchParams(window.location.search)
 
-      queryParams.forEach((value, key) => {
-        // TODO: Validate that passed param pairs are valid
-        if (key in state.filters) {
-          state.filters[key as keyof SearchFilters] = value
+      // Handle title
+      if (queryParams.has('title')) {
+        const title = queryParams.get('title')
+
+        if (title) {
+          state.filters.title = title
         }
-      })
+      }
+
+      // Handle job type
+      if (queryParams.has('type')) {
+        const type = queryParams.get('type')
+
+        if (type) {
+          state.filters.type = type
+        }
+      }
     },
 
     updateFilters: (state, action: PayloadAction<Partial<SearchFilters>>) => {

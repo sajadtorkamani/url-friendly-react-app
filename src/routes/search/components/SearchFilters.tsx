@@ -25,6 +25,11 @@ const SearchFilters: React.FC = () => {
   function handleClearFilters() {
     dispatch(clearFilters())
 
+    searchParams.delete('title')
+    searchParams.delete('type')
+    searchParams.delete('location')
+    setSearchParams(searchParams)
+
     if (jobTitleInputRef.current) {
       jobTitleInputRef.current.focus()
     }
@@ -68,7 +73,12 @@ const SearchFilters: React.FC = () => {
           value={filters.type}
           id="type"
           onChange={(event) => {
-            dispatch(updateFilters({ type: event.target.value }))
+            const value = event.target.value
+
+            dispatch(updateFilters({ type: value }))
+
+            searchParams.set('type', value)
+            setSearchParams(searchParams)
           }}
         >
           <option value="">Any</option>
@@ -106,7 +116,7 @@ const SearchFilters: React.FC = () => {
       {hasFilters && (
         <button
           className="d-flex mt-4 text-blue-800"
-          onClick={handleClearFilters}
+          onClick={() => handleClearFilters()}
         >
           <span className="mr-2">✕</span>
           Clear filters
