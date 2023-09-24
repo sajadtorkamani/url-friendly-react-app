@@ -1,14 +1,20 @@
-import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Provider } from 'react-redux'
-import { store } from './store'
+import { useAppDispatch } from './hooks/app'
 
 const queryClient = new QueryClient()
 
-const Root: React.FC = () => (
-  <Provider store={store}>
+const Root: React.FC = () => {
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch({ type: 'filters/initFromUrl' })
+  }, [dispatch, location])
+
+  return (
     <QueryClientProvider client={queryClient}>
       <main className="mx-auto max-w-6xl p-4">
         <nav className="pt-2 pb-6">
@@ -30,7 +36,7 @@ const Root: React.FC = () => (
         <ReactQueryDevtools initialIsOpen={false} />
       </main>
     </QueryClientProvider>
-  </Provider>
-)
+  )
+}
 
 export default Root

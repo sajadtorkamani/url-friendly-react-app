@@ -6,12 +6,10 @@ import SearchFilters from './components/SearchFilters'
 import SearchResults from './components/SearchResults'
 import { getJobs } from '../../lib/jobs'
 import { selectSearchFilters } from '../../store/slices/searchSlice'
-import { useAppDispatch, useAppSelector } from '../../hooks/app'
+import { useAppSelector } from '../../hooks/app'
 
 const SearchPage: React.FC = () => {
   const filters = useAppSelector(selectSearchFilters)
-  const debouncedFilters = useDebounce(filters, 400, { equalityFn: isEqual })
-  const dispatch = useAppDispatch()
 
   const {
     isLoading,
@@ -19,7 +17,7 @@ const SearchPage: React.FC = () => {
     error,
     data: jobs,
   } = useQuery({
-    queryKey: ['jobs', { filters: debouncedFilters }],
+    queryKey: ['jobs', { filters }],
     queryFn: () => getJobs(filters),
     keepPreviousData: true,
   })

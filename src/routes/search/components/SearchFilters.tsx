@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../hooks/app'
 import {
   clearFilters,
@@ -9,9 +10,17 @@ import {
 
 const SearchFilters: React.FC = () => {
   const filters = useAppSelector(selectSearchFilters)
+  const [searchParams, setSearchParams] = useSearchParams()
   const hasFilters = useAppSelector(selectHasFilters)
   const dispatch = useAppDispatch()
   const jobTitleInputRef = useRef<HTMLInputElement | null>(null)
+  //
+  // // Initialize state from URL on load
+  // useEffect(() => {
+  //   searchParams.forEach((value, key) => {
+  //     dispatch(updateFilters({ [key]: value }))
+  //   })
+  // }, [dispatch])
 
   function handleClearFilters() {
     dispatch(clearFilters())
@@ -36,9 +45,14 @@ const SearchFilters: React.FC = () => {
           id="title"
           name="title"
           value={filters.title}
-          onChange={(event) =>
-            dispatch(updateFilters({ title: event.target.value }))
-          }
+          onChange={(event) => {
+            const value = event.target.value
+
+            dispatch(updateFilters({ title: value }))
+
+            searchParams.set('title', value)
+            setSearchParams(searchParams)
+          }}
           placeholder="e.g., Ruby ninja"
         />
       </div>

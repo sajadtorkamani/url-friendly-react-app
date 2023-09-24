@@ -5,6 +5,8 @@ import Root from './Root'
 import './index.css'
 import SearchPage from './routes/search'
 import AboutPage from './routes/about'
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 const router = createBrowserRouter([
   {
@@ -25,5 +27,7 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 )

@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { searchReducer } from './slices/searchSlice'
+import initFromUrlMiddleware from './middleware/initializeFiltersMiddleware'
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(initFromUrlMiddleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
