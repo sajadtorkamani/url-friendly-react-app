@@ -1,5 +1,4 @@
 import React from 'react'
-import sample from 'lodash/sample'
 import capitalize from 'lodash/capitalize'
 import { Job } from '../../../lib/jobs'
 
@@ -24,7 +23,9 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
   function renderResults() {
     return (
       <>
-        <div className="text-gray-600 text-sm mb-2">Showing {results.length} jobs</div>
+        <div className="mb-2 text-sm text-gray-600">
+          Showing {results.length} jobs
+        </div>
 
         {results.map((job) => (
           <div key={job.id} className="mb-3 border border-gray-300 p-4">
@@ -43,16 +44,7 @@ const SearchResults: React.FC<Props> = ({ isLoading, results }) => {
   }
 
   function renderNoResultsMessage() {
-    const endearment = sample([
-      'hombre',
-      'amigo',
-      'sénior',
-      'pal',
-      'comrade',
-      'buddy',
-      'monsieur',
-    ])
-    return <>No results {endearment}</>
+    return <>No results found</>
   }
 
   return <section className="flex-1 md:ml-6">{render()}</section>
