@@ -1,18 +1,21 @@
 import React, { useRef } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../hooks/app'
 import {
-  useActions,
-  useFilters,
-  useHasFilters,
-} from '../../../stores/search-store'
+  clearFilters,
+  selectHasFilters,
+  selectSearchFilters,
+  updateFilters,
+} from '../../../store/slices/searchSlice'
 
 const SearchFilters: React.FC = () => {
-  const filters = useFilters()
-  const hasFilters = useHasFilters()
-  const { updateFilter, clearFilters } = useActions()
+  const filters = useAppSelector(selectSearchFilters)
+  const hasFilters = useAppSelector(selectHasFilters)
+  const dispatch = useAppDispatch()
   const jobTitleInputRef = useRef<HTMLInputElement | null>(null)
 
   function handleClearFilters() {
-    clearFilters()
+    dispatch(clearFilters())
+
     if (jobTitleInputRef.current) {
       jobTitleInputRef.current.focus()
     }
@@ -33,7 +36,9 @@ const SearchFilters: React.FC = () => {
           id="title"
           name="title"
           value={filters.title}
-          onChange={(event) => updateFilter('title', event.target.value)}
+          onChange={(event) =>
+            dispatch(updateFilters({ title: event.target.value }))
+          }
           placeholder="e.g., Ruby ninja"
         />
       </div>
@@ -49,7 +54,7 @@ const SearchFilters: React.FC = () => {
           value={filters.type}
           id="type"
           onChange={(event) => {
-            updateFilter('type', event.target.value)
+            dispatch(updateFilters({ type: event.target.value }))
           }}
         >
           <option value="">Any</option>
@@ -74,7 +79,7 @@ const SearchFilters: React.FC = () => {
               .filter((option) => option.selected)
               .map((option) => option.value)
 
-            updateFilter('location', selectedValues)
+            dispatch(updateFilters({ location: selectedValues }))
           }}
         >
           <option value="london">London</option>
@@ -86,7 +91,7 @@ const SearchFilters: React.FC = () => {
 
       {hasFilters && (
         <button
-          className="d-flex mt-4 text-gray-800 text-blue-800"
+          className="d-flex mt-4 text-blue-800"
           onClick={handleClearFilters}
         >
           <span className="mr-2">✕</span>

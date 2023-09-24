@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import { updateSearchParams } from '../lib/update-search-params'
+import { create } from 'zustand'
 
 interface State {
   filters: {
