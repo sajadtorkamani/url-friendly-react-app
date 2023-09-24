@@ -1,4 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ObjectMap } from '../../types'
 import { RootState } from '../index'
 
 interface SearchState {
@@ -9,6 +10,12 @@ export type SearchFilters = {
   title: string
   type: string
   location: string[]
+}
+
+export const SEARCH_FILTERS: ObjectMap<SearchFilters> = {
+  title: 'title',
+  type: 'type',
+  location: 'location',
 }
 
 const initialState: SearchState = {
@@ -27,8 +34,8 @@ export const searchSlice = createSlice({
       const queryParams = new URLSearchParams(window.location.search)
 
       // Handle title
-      if (queryParams.has('title')) {
-        const title = queryParams.get('title')
+      if (queryParams.has(SEARCH_FILTERS.title)) {
+        const title = queryParams.get(SEARCH_FILTERS.title)
 
         if (title) {
           state.filters.title = title
@@ -36,8 +43,8 @@ export const searchSlice = createSlice({
       }
 
       // Handle job type
-      if (queryParams.has('type')) {
-        const type = queryParams.get('type')
+      if (queryParams.has(SEARCH_FILTERS.type)) {
+        const type = queryParams.get(SEARCH_FILTERS.type)
 
         if (type) {
           state.filters.type = type
@@ -45,8 +52,10 @@ export const searchSlice = createSlice({
       }
 
       // Handle job location
-      if (queryParams.has('location')) {
-        const location = (queryParams.get('location') || '').split(',')
+      if (queryParams.has(SEARCH_FILTERS.location)) {
+        const location = (queryParams.get(SEARCH_FILTERS.location) || '').split(
+          ','
+        )
 
         if (location.length > 0) {
           state.filters.location = location
@@ -94,17 +103,17 @@ export function syncSearchSliceWithUrl(state: SearchState) {
 
   // Handle title
   if (filters.title) {
-    queryParams.set('title', filters.title)
+    queryParams.set(SEARCH_FILTERS.title, filters.title)
   }
 
   // Handle type
   if (filters.type) {
-    queryParams.set('type', filters.type)
+    queryParams.set(SEARCH_FILTERS.type, filters.type)
   }
 
   // Handle location
   if (filters.location.length > 0) {
-    queryParams.set('location', filters.location.join(','))
+    queryParams.set(SEARCH_FILTERS.location, filters.location.join(','))
   }
 
   // Create a new URL object
