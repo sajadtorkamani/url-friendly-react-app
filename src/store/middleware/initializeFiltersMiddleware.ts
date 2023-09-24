@@ -6,6 +6,7 @@ const initFromUrlMiddleware: Middleware = (storeAPI) => (next) => (action) => {
     switch (window.location.pathname) {
       case '/': {
         storeAPI.dispatch(initializeFromUrl())
+        break
       }
       default:
         // Do nothing
