@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useAppDispatch } from './hooks/app'
+import { MIDDLEWARE_ACTIONS } from './lib/constants'
 
 const queryClient = new QueryClient()
 
@@ -11,8 +12,8 @@ const Root: React.FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch({ type: 'filters/initializeStateFromUrl' })
-    dispatch({ type: 'syncUrlWithState' })
+    dispatch({ type: MIDDLEWARE_ACTIONS.initializeStateFromUrl })
+    dispatch({ type: MIDDLEWARE_ACTIONS.syncUrlWithState })
   }, [dispatch, location])
 
   return (
