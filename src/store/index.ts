@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { searchReducer } from './slices/searchSlice'
 import initializeStateFromUrlMiddleware from './middleware/initializeStateFromUrlMiddleware'
-import initializeUrlFromStateMiddleware from './middleware/initializeUrlFromStateMiddleware'
+import syncUrlWithStateMiddleware from './middleware/syncUrlWithStateMiddleware'
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +10,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),
     initializeStateFromUrlMiddleware,
-    initializeUrlFromStateMiddleware,
+    syncUrlWithStateMiddleware,
   ],
 })
 

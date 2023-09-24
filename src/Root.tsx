@@ -12,6 +12,7 @@ const Root: React.FC = () => {
 
   useEffect(() => {
     dispatch({ type: 'filters/initializeStateFromUrl' })
+    dispatch({ type: 'syncUrlWithState' })
   }, [dispatch, location])
 
   return (

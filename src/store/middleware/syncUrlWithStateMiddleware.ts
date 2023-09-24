@@ -1,0 +1,23 @@
+import { Middleware } from '@reduxjs/toolkit'
+import { syncSearchSliceWithUrl } from '../slices/searchSlice'
+
+const syncUrlWithStateMiddleware: Middleware =
+  (storeAPI) => (next) => (action) => {
+    const state = storeAPI.getState()
+
+    if (action.type === 'syncUrlWithState') {
+      switch (window.location.pathname) {
+        case '/': {
+          syncSearchSliceWithUrl(state.search)
+          break
+        }
+        default:
+          // Do nothing
+          break
+      }
+    }
+
+    next(action)
+  }
+
+export default syncUrlWithStateMiddleware

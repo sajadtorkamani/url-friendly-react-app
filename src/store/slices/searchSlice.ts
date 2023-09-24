@@ -1,4 +1,9 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSelector,
+  createSlice,
+  original,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import { RootState } from '../index'
 
 interface SearchState {
@@ -86,6 +91,24 @@ export const selectHasFilters = createSelector(
     })
   }
 )
+
+export function syncSearchSliceWithUrl(state: SearchState) {
+  const filters = state.filters
+
+  const queryParams = new URLSearchParams(window.location.search)
+
+  if (filters.title) {
+    console.log('title', filters.title)
+    queryParams.set('title', filters.title)
+
+    // Create a new URL object
+    const url = new URL(window.location.href)
+    url.search = queryParams.toString()
+
+    // Update the current URL
+    history.pushState({}, '', url.toString())
+  }
+}
 
 export const { initializeFromUrl, updateFilters, clearFilters } =
   searchSlice.actions
