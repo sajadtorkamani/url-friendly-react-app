@@ -23,6 +23,17 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
+    initializeFromUrl: (state) => {
+      const queryParams = new URLSearchParams(window.location.search)
+
+      queryParams.forEach((value, key) => {
+        // TODO: Validate that passed param pairs are valid
+        if (key in state.filters) {
+          state.filters[key as keyof SearchFilters] = value
+        }
+      })
+    },
+
     updateFilters: (state, action: PayloadAction<Partial<SearchFilters>>) => {
       state.filters = {
         ...state.filters,
@@ -56,6 +67,7 @@ export const selectHasFilters = createSelector(
   }
 )
 
-export const { updateFilters, clearFilters } = searchSlice.actions
+export const { initializeFromUrl, updateFilters, clearFilters } =
+  searchSlice.actions
 
 export const searchReducer = searchSlice.reducer
