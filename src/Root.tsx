@@ -11,7 +11,7 @@ const Root: React.FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch({ type: 'filters/initFromUrl' })
+    dispatch({ type: 'filters/initializeStateFromUrl' })
   }, [dispatch, location])
 
   return (

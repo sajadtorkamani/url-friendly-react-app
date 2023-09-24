@@ -2,7 +2,7 @@ import { Middleware } from '@reduxjs/toolkit'
 import { initializeFromUrl } from '../slices/searchSlice'
 
 const initFromUrlMiddleware: Middleware = (storeAPI) => (next) => (action) => {
-  if (action.type === 'filters/initFromUrl') {
+  if (action.type === 'filters/initializeStateFromUrl') {
     switch (window.location.pathname) {
       case '/': {
         storeAPI.dispatch(initializeFromUrl())
