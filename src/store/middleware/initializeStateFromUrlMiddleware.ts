@@ -13,6 +13,7 @@ const initFromUrlMiddleware: Middleware = (storeAPI) => (next) => (action) => {
         break
     }
   }
+
   next(action)
 }
 
